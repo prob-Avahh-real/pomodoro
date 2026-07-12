@@ -1,0 +1,36 @@
+name: Pomodoro
+options:
+  bundleIdPrefix: com.pomodoro
+  deploymentTarget:
+    iOS: "17.0"
+    macOS: "14.0"
+
+settings:
+  SWIFT_VERSION: "5.9"
+
+targets:
+  Pomodoro:
+    type: application
+    platform: [iOS, macOS]
+    sources:
+      - Sources/Pomodoro
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.pomodoro.app
+      INFOPLIST_FILE: Info.plist
+    info:
+      path: Info.plist
+      properties:
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: false
+
+  PomodoroTests:
+    type: bundle.unit-test
+    platform: [iOS, macOS]
+    sources:
+      - Tests/PomodoroTests
+    dependencies:
+      - target: Pomodoro
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.pomodoro.tests
