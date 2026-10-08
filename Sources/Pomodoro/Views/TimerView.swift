@@ -135,7 +135,7 @@ struct TimerView: View {
             case .paused:
                 Button(action: vm.reset) {
                     Label("结束", systemImage: "stop.fill")
-                        .font(.headline).foregroundStyle(.pomoRed)
+                        .font(.headline).foregroundStyle(Color.pomoRed)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
                         .background(.white)
@@ -154,7 +154,7 @@ struct TimerView: View {
             case .focusing, .shortBreak, .longBreak:
                 Button(action: vm.togglePause) {
                     Label("暂停", systemImage: "pause.fill")
-                        .font(.headline).foregroundStyle(.pomoRed)
+                        .font(.headline).foregroundStyle(Color.pomoRed)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
                         .background(.white)
@@ -180,7 +180,7 @@ struct TimerView: View {
     private var phaseColor: Color {
         switch vm.phase {
         case .idle, .paused:    .secondary
-        case .focusing:         .pomoRed
+        case .focusing:         Color.pomoRed
         case .shortBreak:       .pomoGreen
         case .longBreak:        .pomoBlue
         }
@@ -188,7 +188,7 @@ struct TimerView: View {
 
     private var ringColors: [Color] {
         switch vm.phase {
-        case .focusing:   [.pomoRed, .pomoRed.opacity(0.7), .orange]
+        case .focusing:   [Color.pomoRed, Color.pomoRed.opacity(0.7), Color.orange]
         case .shortBreak: [.pomoGreen, .pomoGreen.opacity(0.7), .mint]
         case .longBreak:  [.pomoBlue, .pomoBlue.opacity(0.7), .pomoGold]
         default:          [.gray.opacity(0.3)]
@@ -197,7 +197,7 @@ struct TimerView: View {
 
     private var pomodoroGradient: LinearGradient {
         LinearGradient(
-            colors: [.pomoRed, .orange],
+            colors: [Color.pomoRed, Color.orange],
             startPoint: .leading,
             endPoint: .trailing
         )
@@ -250,7 +250,9 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("设置")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("完成") { dismiss() }

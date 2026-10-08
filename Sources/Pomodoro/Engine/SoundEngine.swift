@@ -12,8 +12,10 @@ final class SoundEngine {
     func start() {
         guard !isRunning else { return }
         do {
+            #if os(iOS)
             try AVAudioSession.sharedInstance().setCategory(.playback, options: .mixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
+            #endif
             engine.prepare()
             try engine.start()
             isRunning = true

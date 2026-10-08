@@ -1,6 +1,9 @@
 import SwiftUI
 import Combine
 import UserNotifications
+#if os(iOS)
+import UIKit
+#endif
 
 @MainActor
 final class PomodoroViewModel: ObservableObject {
@@ -96,7 +99,9 @@ final class PomodoroViewModel: ObservableObject {
         if remaining <= 3 && remaining > 0 {
             sound.playTick(volume: settings.volume)
             if settings.hapticEnabled {
+                #if os(iOS)
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                #endif
             }
         }
 
@@ -129,7 +134,9 @@ final class PomodoroViewModel: ObservableObject {
             sendNotification(title: "🍅 专注完成！", body: "站起来伸个懒腰，休息一下吧～")
             sound.playSessionEnd(theme: settings.soundTheme, volume: settings.volume)
             if settings.hapticEnabled {
+                #if os(iOS)
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                #endif
             }
 
             // 判断该长休息还是短休息
@@ -146,7 +153,9 @@ final class PomodoroViewModel: ObservableObject {
             sendNotification(title: "⏰ 休息结束", body: "继续加油，开始下一个番茄吧！")
             sound.playBreakEnd(theme: settings.soundTheme, volume: settings.volume)
             if settings.hapticEnabled {
+                #if os(iOS)
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                #endif
             }
             totalDuration = TimeInterval(settings.focusMinutes * 60)
             phase = .focusing(totalDuration)
@@ -186,6 +195,6 @@ final class PomodoroViewModel: ObservableObject {
     }
 
     deinit {
-        stopTimer()
+        timer?.invalidate()
     }
 }
